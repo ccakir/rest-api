@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cakir.entity.Contacts;
+import com.cakir.exceptions.ResourceNotFoundException;
 import com.cakir.repository.ContactsRepository;
 import com.cakir.service.ContactsService;
 import com.cakir.util.RestPreconditions;
@@ -41,7 +42,8 @@ public class ContactsServiceImpl implements ContactsService {
 
 	@Override
 	public Contacts updateContact(Contacts contact) {
-		
+		RestPreconditions.checkNotNull(contact.getVorname());
+		RestPreconditions.checkNotNull(contact.getNachname());
 		return contactsRepository.save(contact);
 	}
 
@@ -54,12 +56,13 @@ public class ContactsServiceImpl implements ContactsService {
 	@Override
 	public List<Contacts> getContactByNachname(String nachname) {
 		
-		TypedQuery<Contacts> query = entityManager.createNamedQuery("Contacts.searchByNachname", Contacts.class)
+		TypedQuery<Contacts> query = entityManager
+				.createNamedQuery("Contacts.searchByNachname", Contacts.class)
 				.setParameter("nachname", nachname);
 				
 		List<Contacts> list = query.getResultList();
 		if(list.size() > 0 ) return list;
-		else return null;
+		else throw new ResourceNotFoundException();
 	}
 
 	@Override
