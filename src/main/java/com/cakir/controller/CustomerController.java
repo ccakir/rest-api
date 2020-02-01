@@ -31,7 +31,6 @@ import com.cakir.util.RestPreconditions;
 @RestController
 @RequestMapping(value = "api/")
 @Api(value = "Mein Customer API Dokument")
-@EnableWebMvc
 public class CustomerController {
 
 	
@@ -88,6 +87,6 @@ public class CustomerController {
 			
 		
 	}
-	//sdfsd
+	
 
 }

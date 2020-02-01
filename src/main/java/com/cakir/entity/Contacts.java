@@ -152,5 +152,13 @@ public class Contacts implements Serializable {
 		this.customer = customer;
 	}
 
+	@Override
+	public String toString() {
+		return "Contacts [id=" + id + ", anrede=" + anrede + ", titel=" + titel
+				+ ", vorname=" + vorname + ", nachname=" + nachname
+				+ ", telefon=" + telefon + ", mobil=" + mobil + ", fax=" + fax
+				+ ", email=" + email + ", customer=" + customer + "]";
+	}
+
 	
 }

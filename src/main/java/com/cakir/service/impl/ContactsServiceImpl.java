@@ -1,9 +1,11 @@
 package com.cakir.service.impl;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cakir.entity.Contacts;
 import com.cakir.repository.ContactsRepository;
 import com.cakir.service.ContactsService;
+import com.cakir.util.RestPreconditions;
 
 @Service
 @Transactional
@@ -31,6 +34,8 @@ public class ContactsServiceImpl implements ContactsService {
 	@Override
 	public Contacts createContact(Contacts contact) {
 		
+		RestPreconditions.checkNotNull(contact.getVorname());
+		RestPreconditions.checkNotNull(contact.getNachname());
 		return contactsRepository.save(contact);
 	}
 
