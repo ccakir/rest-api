@@ -1,8 +1,5 @@
 package com.cakir.controllerTest;
 
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,31 +24,24 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.cakir.RestApiApplication;
 import com.cakir.entity.Customer;
 import com.cakir.service.CustomerService;
-import com.cakir.util.RestPreconditions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.hamcrest.Matchers;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = RestApiApplication.class)
@@ -184,9 +172,11 @@ public class CustomerControllerTest {
 				put("/api/customer/1").content(
 						objectMapper.writeValueAsString(customer)).header(
 						HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$.id", is(1)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", is(1)))
 				.andExpect(jsonPath("$.name", is("Test-Name")))
-				.andExpect(jsonPath("$.email", is("test@gmail.com")));
+				.andExpect(jsonPath("$.email", is("test@gmail.com")))
+				.andDo(print());
 		verify(customerService, Mockito.times(1)).updateCustomer(customer);
 
 	}
