@@ -39,7 +39,7 @@ public class ContactsController {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Contacts> findContactById(@PathVariable("id") long id) {
-		return ResponseEntity.status(HttpStatus.OK)
+		return ResponseEntity.status(HttpStatus.FOUND)
 				.body(RestPreconditions.checkFound(contactsService
 						.getContactById(id)));
 	}
