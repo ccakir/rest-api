@@ -138,7 +138,7 @@ public class ContactsControllerTest {
 				.thenReturn(contact);
 
 		mvc.perform(get("/api/contacts/{id}", 1).contentType(CONTENT_TYPE))
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 				.andExpect(jsonPath("$.id", Matchers.is(1)));
 		verify(contactService, times(1)).getContactById(1L);
 

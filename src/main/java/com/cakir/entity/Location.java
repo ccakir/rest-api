@@ -1,6 +1,6 @@
 package com.cakir.entity;
 
-import groovy.transform.Generated;
+
 
 import java.io.Serializable;
 
